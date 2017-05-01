@@ -95,21 +95,19 @@ func (task *Task) Solve() {
 }
 
 func (task *Task) search(a []iceCream, m int) {
+	mapRemaining := make(map[int]iceCream)
 	for _, f := range a {
 		remaining := m - f.Cost
-		length := len(a)
-		index := sort.Search(length, func(i int) bool {
-			return remaining < a[i].Cost
-		})
-		// Found second element that adds up to m
-		if index != len(a) {
+		r, ok := mapRemaining[remaining]
+		if ok {
 			first := f.ID
-			second := a[index].ID
+			second := r.ID
 			if first != second { // We want unique elements
 				fmt.Printf("%d %d\n", int(math.Min(float64(first), float64(second))), int(math.Max(float64(first), float64(second))))
 				break
 			}
 		}
+		mapRemaining[f.Cost] = f
 	}
 }
 
