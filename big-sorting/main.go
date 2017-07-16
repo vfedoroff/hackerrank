@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
-	"unicode"
 )
 
 func printArr(arr []string) {
@@ -25,28 +23,28 @@ func (b BigSort) Less(i, j int) bool {
 	jRunes := []rune(b[j])
 	if len(iRunes) == len(jRunes) {
 		for idx := 0; idx < len(iRunes); idx++ {
-			ri := unicode.ToLower(iRunes[idx])
-			rj := unicode.ToLower(jRunes[idx])
+			ri := iRunes[idx]
+			rj := jRunes[idx]
 			if rj == ri {
 				continue
 			}
 			return ri < rj
 		}
+	} else {
+		return len(iRunes) < len(jRunes)
 	}
-	return len(iRunes) < len(jRunes)
+	return false
 }
 
 func main() {
 	s := bufio.NewScanner(bufio.NewReader(os.Stdin))
 	s.Split(bufio.ScanWords)
 	s.Scan()
-	n, _ := strconv.Atoi(s.Text())
-	arr := make([]string, n)
-	for i := 0; i < n; i++ {
-		s.Scan()
+	arr := make([]string, 0)
+	for s.Scan() {
 		var txt = strings.TrimSpace(s.Text())
-		if len(txt) > 0 {
-			arr[i] = s.Text()
+		if txt != "" {
+			arr = append(arr, s.Text())
 		}
 	}
 	sort.Sort(BigSort(arr))
