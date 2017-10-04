@@ -34,10 +34,11 @@ function main() {
     // calculate the starting index for each key:
     let output = new Array();
     for(let i=0; i<100; i++) {
-        for(let j=0;j<count[i];j++){
+        let cnt = count[i];
+        // for the number of times the item occurs
+        for(let j=0;j<cnt;j++){
             output.push(i);
         }
     }
-    console.log(output.join(' '));
-    
+    console.log(output.join(' '));   
 }
